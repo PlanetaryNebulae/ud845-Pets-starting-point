@@ -2,17 +2,14 @@ package com.example.android.pets;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
-
 import com.example.android.pets.data.PetContract.PetsEntry;
-
-import com.example.android.pets.data.PetContract;
 
 /**
  * {@link PetCursorAdapter} is an adapter for a list or grid view
@@ -65,11 +62,16 @@ public class PetCursorAdapter extends CursorAdapter {
 
         //Columns of pet attributes.
         int nameColumnIndex = cursor.getColumnIndex(PetsEntry.COLUMN_PET_NAME);
-        int breedColumnIndex = cursor.getColumnIndex(PetsEntry.COLUMN_PET_GENDER);
+        int breedColumnIndex = cursor.getColumnIndex(PetsEntry.COLUMN_PET_BREED);
 
         //Read pet attributes from the cursor for the current pet.
         String petName = cursor.getString(nameColumnIndex);
         String petBreed = cursor.getString(breedColumnIndex);
+
+        if (TextUtils.isEmpty(petBreed)) {
+
+            petBreed = context.getString(R.string.unknown_breed);
+        }
 
         //Updates the TextView with the attributes for the current pet.
         nameTextView.setText(petName);
